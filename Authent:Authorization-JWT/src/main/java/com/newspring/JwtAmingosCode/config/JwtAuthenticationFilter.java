@@ -34,12 +34,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
         // check jwt token which is send by client
        final String jwt;
        final String userEmail;
+        // check jwt token
         if(authHeader==null || !authHeader.startsWith("Bearer "))
         {
             filterChain.doFilter(request,response);
             return;
         }
+          // extract the token from header
         jwt=authHeader.substring(7);
+
+         // extract the email from JWT token
         userEmail=jwtService.extractUsername(jwt);
         if(userEmail!=null && SecurityContextHolder.getContext().getAuthentication()==null)
         {
